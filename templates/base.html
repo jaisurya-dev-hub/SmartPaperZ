@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}SmartPaperZ{% endblock %} | SmartPaperZ</title>
+<meta name="description" content="{% block desc %}Find previous-year question papers for colleges and government exams.{% endblock %}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head><body>
+<header class="nav"><a class="logo" href="{{ url_for('index') }}" aria-label="SmartPaperZ home"><b>S</b>mart<b>P</b>aper<b>Z</b></a>
+<nav><a href="{{ url_for('papers') }}">Papers</a><a href="{{ url_for('colleges') }}">Colleges</a><a href="{{ url_for('exams') }}">Government exams</a>
+<a href="{{ url_for('submit') }}">Submit</a>
+{% if user %}<a href="{{ url_for('bookmarks') }}">Saved</a><a href="{{ url_for('profile') }}">{{ user['name'] }}</a>
+{% if user['role'] == 'admin' %}<a href="{{ url_for('admin') }}">Admin</a>{% endif %}
+<form method="post" action="{{ url_for('logout') }}" class="inline"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="link">Log out</button></form>
+{% else %}<a href="{{ url_for('login') }}">Log in</a><a class="btn sm" href="{{ url_for('register') }}">Sign up</a>{% endif %}</nav></header>
+<main>{% for cat, m in get_flashed_messages(with_categories=true) %}<p class="flash {{ cat }}" role="alert">{{ m }}</p>{% endfor %}
+{% block body %}{% endblock %}</main>
+<footer><p><b>SmartPaperZ</b> · Smart, Previous-year papers, Zenz</p>
+<p><a href="{{ url_for('page', slug='about') }}">About</a> <a href="{{ url_for('page', slug='contact') }}">Contact</a>
+<a href="{{ url_for('page', slug='privacy') }}">Privacy</a> <a href="{{ url_for('page', slug='terms') }}">Terms</a></p>
+<p class="muted">© 2026 SmartPaperZ. Papers belong to their original publishers.</p></footer>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script></body></html>

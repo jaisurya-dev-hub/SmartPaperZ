@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% from '_macros.html' import cards, pager %}{% block title %}{{ heading }}{% endblock %}
+{% block body %}<h1>{{ heading }}</h1>{% if sub %}<p class="muted">{{ sub }}</p>{% endif %}
+{% if args is defined and heading != 'Saved papers' %}<form class="filters" method="get"><input name="q" value="{{ args.q }}" placeholder="Search" aria-label="Search">
+<select name="category" aria-label="Category"><option value="">Any category</option>{% for c in CATEGORIES %}<option {{ 'selected' if args.category == c }}>{{ c }}</option>{% endfor %}</select>
+<input name="subject" value="{{ args.subject }}" placeholder="Subject"><input name="year" value="{{ args.year }}" placeholder="Year" size="6">
+<input name="semester" value="{{ args.semester }}" placeholder="Semester" size="8"><input name="language" value="{{ args.language }}" placeholder="Language" size="9">
+<select name="sort" aria-label="Sort"><option value="">Newest</option><option value="year" {{ 'selected' if args.sort == 'year' }}>Year</option><option value="popular" {{ 'selected' if args.sort == 'popular' }}>Most downloaded</option></select>
+<button class="btn sm">Apply</button><a href="{{ request.path }}">Clear</a></form>{% endif %}
+<p class="muted">{{ total }} paper{{ '' if total == 1 else 's' }}</p>{{ cards(papers) }}{{ pager(page, pages, args) }}{% endblock %}

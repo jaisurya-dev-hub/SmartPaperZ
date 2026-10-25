@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% from '_macros.html' import cards %}
+{% block body %}
+<section class="hero"><h1>Your Next Exam Starts Here.</h1>
+<p>Find previous-year question papers for your college, university or government exam, then view, download and share them.</p>
+<form action="{{ url_for('papers') }}" class="bigsearch"><input name="q" placeholder="Search by paper, college, exam or subject" aria-label="Search papers"><button class="btn">Search papers</button></form>
+<div class="two"><a class="panel" href="{{ url_for('colleges') }}"><h2>Search by college</h2><p>Pick a state, open your college, filter by semester and subject.</p></a>
+<a class="panel" href="{{ url_for('exams') }}"><h2>Search by government exam</h2><p>TNPSC, UPSC, SSC, banking, railways, teaching and more.</p></a></div></section>
+<section class="stats"><div><b>{{ stats.papers }}</b> papers</div><div><b>{{ stats.colleges }}</b> colleges</div><div><b>{{ stats.exams }}</b> exams listed</div><div><b>{{ stats.downloads }}</b> downloads</div></section>
+<h2>Recently added</h2>{{ cards(recent) }}
+<h2>Popular exams</h2><div class="chips">{% for e in exams %}<a href="{{ url_for('exam_detail', eid=e.id) }}">{{ e.name }} <small>{{ e.n }}</small></a>{% endfor %}</div>
+<h2>Colleges</h2><div class="chips">{% for c in colleges %}<a href="{{ url_for('college_detail', cid=c.id) }}">{{ c.name }}</a>{% endfor %}</div>
+<h2>Browse by category</h2><div class="chips">{% for c in CATEGORIES %}<a href="{{ url_for('papers', category=c) }}">{{ c }}</a>{% endfor %}</div>
+<section class="panel cta"><h2>Got a paper others could use?</h2><p>Submit it for review. Approved papers get their own shareable page.</p><a class="btn" href="{{ url_for('submit') }}">Contribute a paper</a></section>
+{% endblock %}

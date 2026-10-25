@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% from '_macros.html' import cards %}{% block title %}Profile{% endblock %}
+{% block body %}<h1>{{ user['name'] }}</h1><p class="muted">{{ user['email'] }} · {{ user['role'] }} · joined {{ user['created_at'][:10] }}</p>
+<h2>Your submissions</h2>{{ cards(mine) }}{% endblock %}

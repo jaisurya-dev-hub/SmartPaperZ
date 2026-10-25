@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block title %}{{ {'login':'Log in','register':'Create account','admin':'Administrator login'}[mode] }}{% endblock %}
+{% block body %}<form method="post" class="form narrow"><h1>{{ {'login':'Log in','register':'Create your account','admin':'Administrator login'}[mode] }}</h1>
+<input type="hidden" name="csrf" value="{{ csrf }}">
+{% if mode == 'register' %}<label>Name<input name="name" required autocomplete="name"></label>{% endif %}
+<label>Email<input type="email" name="email" required autocomplete="email"></label>
+<label>Password<input type="password" name="password" required minlength="{{ 8 if mode == 'register' else 1 }}" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}"></label>
+<button class="btn">{{ 'Create account' if mode == 'register' else 'Log in' }}</button>
+{% if mode == 'login' %}<p class="muted">New here? <a href="{{ url_for('register') }}">Create an account</a>. Password reset by email is not set up yet; ask an administrator.</p>{% endif %}</form>{% endblock %}

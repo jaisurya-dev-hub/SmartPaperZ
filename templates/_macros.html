@@ -1,0 +1,10 @@
+{% macro cards(papers) %}
+{% if papers %}<div class="grid">{% for p in papers %}
+<a class="card" href="{{ url_for('paper_detail', pid=p.id) }}"><span class="tag">{{ p.category }}</span>
+<h3>{{ p.title }}</h3><p class="muted">{{ [p.college or p.exam, p.year, p.language]|select|join(' · ') }}</p></a>{% endfor %}</div>
+{% else %}<div class="empty"><p>No papers here yet. Have one? Help other students by sharing it.</p>
+<a class="btn" href="{{ url_for('submit') }}">Submit a paper</a></div>{% endif %}
+{% endmacro %}
+{% macro pager(page, pages, args) %}{% if pages > 1 %}<div class="pager">{% for n in range(1, pages + 1) %}
+<a class="{{ 'on' if n == page }}" href="?{{ dict(args, page=n)|urlencode }}">{{ n }}</a>{% endfor %}</div>{% endif %}{% endmacro %}
+{% macro act(url, label, cls='') %}<form method="post" action="{{ url }}" class="inline"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="btn sm {{ cls }}">{{ label }}</button></form>{% endmacro %}

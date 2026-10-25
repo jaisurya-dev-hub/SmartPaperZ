@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block title %}Government exams{% endblock %}
+{% block body %}<h1>Government exams</h1><p class="muted">This is a directory. Only exams showing a paper count have papers uploaded.</p>
+<form class="filters" method="get"><input name="q" value="{{ q }}" placeholder="Search exams"><button class="btn sm">Search</button></form>
+{% for cat, items in rows|groupby('category') %}<h2>{{ cat }}</h2><div class="grid">{% for e in items %}
+<a class="card" href="{{ url_for('exam_detail', eid=e.id) }}"><h3>{{ e.name }}</h3><p class="muted">{{ e.body }} · {{ (e.n ~ ' papers') if e.n else 'No papers yet' }}</p></a>{% endfor %}</div>
+{% else %}<div class="empty"><p>No exam matches that search.</p></div>{% endfor %}{% endblock %}

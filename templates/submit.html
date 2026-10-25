@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}Submit a paper{% endblock %}
+{% block body %}<form method="post" enctype="multipart/form-data" class="form"><h1>Submit a paper</h1>
+<p class="muted">Submissions are reviewed before they appear. Only upload papers you are allowed to share.</p><input type="hidden" name="csrf" value="{{ csrf }}">
+<label>Title<input name="title" value="{{ f.title }}" required></label>
+<label>Category<select name="category" required><option value="">Choose</option>{% for c in CATEGORIES %}<option {{ 'selected' if f.category == c }}>{{ c }}</option>{% endfor %}</select></label>
+<label>College<select name="college_id"><option value="">None</option>{% for c in colleges %}<option value="{{ c.id }}">{{ c.name }} ({{ c.state }})</option>{% endfor %}</select></label>
+<label>College not listed? Name<input name="new_college"></label><label>State of that college<input name="new_state"></label>
+<label>Government exam<select name="exam_id"><option value="">None</option>{% for e in exams %}<option value="{{ e.id }}">{{ e.name }}</option>{% endfor %}</select></label>
+<label>Course or exam stage<input name="course"></label><label>Subject<input name="subject" value="{{ f.subject }}"></label>
+<label>Year<input name="year" type="number" value="{{ f.year }}"></label><label>Semester<input name="semester"></label><label>Language<input name="language" placeholder="English, Tamil..."></label>
+<label>Description<textarea name="description" rows="3"></textarea></label><label>PDF file (15 MB max)<input type="file" name="pdf" accept="application/pdf"></label>
+<label>Source URL (optional)<input name="source_url" type="url"></label><button class="btn">Submit paper</button></form>{% endblock %}

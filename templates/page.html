@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block title %}{{ title }}{% endblock %}
+{% block body %}<h1>{{ title }}</h1><div class="prose">
+{% if slug == 'about' %}<p>SmartPaperZ helps Indian school students, college students and government-exam aspirants find previous-year question papers. S is for Smart, P for Previous-year papers, Z for Zenz.</p>
+{% elif slug == 'contact' %}<p>Questions or takedown requests: write to the site owner. Add the contact address in templates/page.html before launch.</p>
+{% elif slug == 'privacy' %}<p>We store your name, email and a hashed password, plus the papers you submit and save. Replace this draft with a reviewed policy before launch.</p>
+{% else %}<p>Only submit papers you are allowed to share. Administrators may remove material that is reported as unauthorised. Replace this draft with reviewed terms before launch.</p>{% endif %}</div>{% endblock %}

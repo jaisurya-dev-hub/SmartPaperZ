@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}{{ p.title }}{% endblock %}{% block desc %}{{ p.title }} previous-year question paper{% endblock %}
+{% block body %}<h1>{{ p.title }}</h1>
+{% if p.status != 'approved' %}<p class="flash error">Status: {{ p.status }}. Only you and administrators can see this page.</p>{% endif %}
+<p class="muted">{{ [p.category, p.college, p.exam, p.course, p.stage, p.subject, p.semester, p.year, p.language]|select|join(' · ') }}</p>
+{% if p.description %}<p>{{ p.description }}</p>{% endif %}
+<div class="actions">{% if p.stored_name %}<a class="btn" href="{{ url_for('paper_download', pid=p.id) }}">Download PDF</a>{% endif %}
+{% if p.source_url %}<a class="btn alt" href="{{ p.source_url }}" rel="noopener noreferrer" target="_blank">Open original source</a>{% endif %}
+<button class="btn alt" type="button" data-share="{{ url_for('paper_detail', pid=p.id, _external=True) }}">Share link</button>
+{% if user %}<form method="post" action="{{ url_for('bookmark', pid=p.id) }}" class="inline"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="btn alt">{{ 'Remove bookmark' if saved else 'Save paper' }}</button></form>{% endif %}</div>
+{% if p.stored_name %}<iframe class="pdf" src="{{ url_for('paper_file', pid=p.id) }}" title="PDF viewer"></iframe>{% endif %}
+{% if user %}<form method="post" action="{{ url_for('report', pid=p.id) }}" class="form"><input type="hidden" name="csrf" value="{{ csrf }}">
+<label>Report this paper (wrong, duplicate, or not allowed)<input name="reason" maxlength="500" required></label><button class="btn sm alt">Send report</button></form>{% endif %}{% endblock %}

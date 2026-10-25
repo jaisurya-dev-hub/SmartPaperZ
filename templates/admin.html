@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% from '_macros.html' import act with context %}{% block title %}Admin{% endblock %}
+{% block body %}<h1>Administrator dashboard</h1>
+<section class="stats">{% for k, v in stats.items() %}<div><b>{{ v }}</b> {{ k }}</div>{% endfor %}</section>
+<h2>Pending submissions</h2><table>{% for p in pending %}<tr><td><a href="{{ url_for('paper_detail', pid=p.id) }}">{{ p.title }}</a></td><td>{{ p.college or p.exam or '' }}</td>
+<td>{{ act(url_for('admin_paper', pid=p.id, act='approve'), 'Approve') }} {{ act(url_for('admin_paper', pid=p.id, act='reject'), 'Reject', 'alt') }}</td></tr>
+{% else %}<tr><td>Nothing to review.</td></tr>{% endfor %}</table>
+<h2>Suggested colleges</h2><table>{% for c in pcolleges %}<tr><td>{{ c.name }}, {{ c.state }}</td><td>{{ act(url_for('admin_college', cid=c.id, act='approve'), 'Approve') }} {{ act(url_for('admin_college', cid=c.id, act='reject'), 'Reject', 'alt') }}</td></tr>{% else %}<tr><td>None pending.</td></tr>{% endfor %}</table>
+<h2>Open reports</h2><table>{% for r in reports %}<tr><td><a href="{{ url_for('paper_detail', pid=r.paper_id) }}">{{ r.title }}</a></td><td>{{ r.reason }} ({{ r.email }})</td>
+<td>{{ act(url_for('admin_report', rid=r.id, act='remove'), 'Remove paper') }} {{ act(url_for('admin_report', rid=r.id, act='dismiss'), 'Dismiss', 'alt') }}</td></tr>{% else %}<tr><td>No open reports.</td></tr>{% endfor %}</table>
+<h2>Recent papers</h2><table>{% for p in allp %}<tr><td><a href="{{ url_for('paper_detail', pid=p.id) }}">{{ p.title }}</a></td><td>{{ p.status }}{{ ' · featured' if p.featured }}</td>
+<td>{{ act(url_for('admin_paper', pid=p.id, act='feature'), 'Feature' if not p.featured else 'Unfeature', 'alt') }} {{ act(url_for('admin_paper', pid=p.id, act='delete'), 'Delete', 'danger') }}</td></tr>{% endfor %}</table>
+<h2>Users</h2><table>{% for u in users %}<tr><td>{{ u.name }} ({{ u.email }})</td><td>{{ u.role }}{{ '' if u.active else ' · suspended' }}</td>
+<td>{% if u.id != user['id'] %}{{ act(url_for('admin_user', uid=u.id), 'Activate' if not u.active else 'Suspend', 'alt') }}{% endif %}</td></tr>{% endfor %}</table>{% endblock %}

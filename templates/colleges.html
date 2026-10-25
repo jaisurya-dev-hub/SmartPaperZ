@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block title %}Search by college{% endblock %}
+{% block body %}<h1>Search by college</h1><form class="filters" method="get"><select name="state" aria-label="State"><option value="">All states</option>
+{% for s in states %}<option {{ 'selected' if s == st }}>{{ s }}</option>{% endfor %}</select><input name="q" value="{{ q }}" placeholder="College or university"><button class="btn sm">Search</button></form>
+{% if rows %}<div class="grid">{% for c in rows %}<a class="card" href="{{ url_for('college_detail', cid=c.id) }}"><h3>{{ c.name }}</h3><p class="muted">{{ c.city or '' }}, {{ c.state }} · {{ c.n }} papers</p></a>{% endfor %}</div>
+{% else %}<div class="empty"><p>No matching college.</p></div>{% endif %}
+<p>Can't find yours? <a href="{{ url_for('submit') }}">Suggest a college</a> while submitting a paper.</p>{% endblock %}
